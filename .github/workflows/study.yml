@@ -66,9 +66,8 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script_stop: true
           script: |
-            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/server:latest
-            docker-compose up -d
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/server:latest
+            sudo docker-compose up -d
       - name: Check deploy server URL PORT 8080
         uses: jtalk/url-health-check-action@v3
         with:
