@@ -89,17 +89,17 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script_stop: true
           script: |
-            docker exec -i nginxserver bash -c 'echo "set \$server_env ${{ env.TARGET_UPSTREAM }}"; >> /etc/nginx/conf.d/server-env.inc && service nginx reload'
+            sudo docker exec -i nginxserver bash -c 'echo "set \$server_env ${{ env.TARGET_UPSTREAM }}"; >> /etc/nginx/conf.d/server-env.inc && service nginx reload'
 
       - name: Stop Current server
         uses: appleboy/ssh-action@master
         with:
           username: ubuntu
-          host: ${{ secrets.CURRENT_IP }}
+          host: ${{ env.CURRENT_IP }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script_stop: true
           script: |
-            docker stop prod1
-            docker stop prod2
-            docker rm prod1
-            docker rm prod2
+            sudo docker stop prod1
+            sudo docker stop prod2
+            sudo docker rm prod1
+            sudo docker rm prod2
