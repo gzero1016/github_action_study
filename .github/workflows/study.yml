@@ -41,23 +41,23 @@ jobs:
     steps:
       - name: Set target IP
         run: |
-        CURRENT_UPSTREAM=$(curl -s "http://${{ secrets.NGINX_IP }}/env")
-        echo $CURRENT_UPSTREAM
-        if [ $CURRENT_UPSTREAM -ne blue -o $CURRENT_UPSTREAM -ne green ]; then
-          CURRENT_UPSTREAM=blue
-        fi
-        if [ $CURRENT_UPSTREAM -eq blue ]; then
-          echo "CURRENT_IP=${{ secrets.BLUE_IP }}" >> $GITHUB_ENV
-          echo "STOPPED_IP=${{ secrets.GREEN_IP }}" >> $GITHUB_ENV
-          echo "TARGET_UPSTREAM=green" >> $GITHUB_ENV
-        elif [ $CURRENT_UPSTREAM -eq green ]; then
-          echo "CURRENT_IP=${{ secrets.GREEN_IP }}" >> $GITHUB_ENV
-          echo "STOPPED_IP=${{ secrets.BLUE_IP }}" >> $GITHUB_ENV
-          echo "TARGET_UPSTREAM=blue" >> $GITHUB_ENV
-        else
-          echo "error"
-          exit 1
-        fi
+          CURRENT_UPSTREAM=$(curl -s "http://${{ secrets.NGINX_IP }}/env")
+          echo $CURRENT_UPSTREAM
+          if [ $CURRENT_UPSTREAM -ne blue -o $CURRENT_UPSTREAM -ne green ]; then
+            CURRENT_UPSTREAM=blue
+          fi
+          if [ $CURRENT_UPSTREAM -eq blue ]; then
+            echo "CURRENT_IP=${{ secrets.BLUE_IP }}" >> $GITHUB_ENV
+            echo "STOPPED_IP=${{ secrets.GREEN_IP }}" >> $GITHUB_ENV
+            echo "TARGET_UPSTREAM=green" >> $GITHUB_ENV
+          elif [ $CURRENT_UPSTREAM -eq green ]; then
+            echo "CURRENT_IP=${{ secrets.GREEN_IP }}" >> $GITHUB_ENV
+            echo "STOPPED_IP=${{ secrets.BLUE_IP }}" >> $GITHUB_ENV
+            echo "TARGET_UPSTREAM=blue" >> $GITHUB_ENV
+          else
+            echo "error"
+            exit 1
+          fi
       - name: Docker compose
         uses: appleboy/ssh-action@master
         with:
