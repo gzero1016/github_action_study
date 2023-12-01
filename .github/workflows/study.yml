@@ -95,7 +95,8 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script_stop: true
           script: |
-            sudo docker exec -i nginxserver bash -c 'echo "set \$server_env ${{ env.TARGET_UPSTREAM }}"; >> /etc/nginx/conf.d/server-env.inc && service nginx reload' 
+            sudo docker exec -it nginxserver echo "set \$server_env ${{ env.TARGET_UPSTREAM }}" >> /etc/nginx/conf.d/server-env.inc 
+            nginx -s reload' 
 
       - name: Stop current server
         uses: appleboy/ssh-action@master
