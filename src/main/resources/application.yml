@@ -1,0 +1,46 @@
+spring:
+  profiles:
+    active: local
+    group:
+      local: common, secret
+      prod1: common, prod1-server, secret
+      prod2: common, prod2-server, secret
+
+server:
+  env: blue
+
+---
+
+# 프로젝트 공통설정 (common)
+spring:
+  config:
+    activate:
+      on-profile: common
+
+serverName: common
+
+---
+
+# 서버1 설정 (prod1)
+spring:
+  config:
+    activate:
+      on-profile: prod1-server
+
+server:
+  port: 8080
+
+serverName: prod1
+
+---
+
+# 서버2 설정 (prod2)
+spring:
+  config:
+    activate:
+      on-profile: prod2-server
+
+server:
+  port: 8081
+
+serverName: prod2
